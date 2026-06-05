@@ -6,19 +6,19 @@
 }
 
 :root {
-  --bg:      #0f0f0f;
-  --bg2:     #1a1a1a;
-  --bg3:     #242424;
-  --bg4:     #2e2e2e;
-  --text:    #f0ede8;
-  --text2:   #a09d98;
-  --text3:   #6b6865;
-  --accent:  #d4a853;
-  --accent2: #b8904a;
-  --accent3: #f0c97a;
-  --border:  rgba(240,237,232,0.08);
-  --border2: rgba(240,237,232,0.14);
-  --success: #5c9e6b;
+  --bg:      #001D39;
+  --bg2:     #0A4174;
+  --bg3:     #49769F;
+  --bg4:     #4E8EA2;
+  --text:    #BDD8E9;
+  --text2:   #7BBDE8;
+  --text3:   #6EA2B3;
+  --accent:  #7BBDE8;
+  --accent2: #4E8EA2;
+  --accent3: #BDD8E9;
+  --border:  rgba(189,216,233,0.1);
+  --border2: rgba(189,216,233,0.2);
+  --success: #4E8EA2;
   --danger:  #c0504a;
   --font: 'DM Sans', system-ui, -apple-system, sans-serif;
   --r:  12px;
@@ -42,12 +42,6 @@ body {
 }
 
 ::-webkit-scrollbar { width: 0; height: 0; }
-
 img { display: block; max-width: 100%; }
-
 button { font-family: var(--font); cursor: pointer; }
-
-input, textarea, select {
-  font-family: var(--font);
-  color: var(--text);
-}
+input, textarea, select { font-family: var(--font); color: var(--text); }

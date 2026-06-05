@@ -1,0 +1,151 @@
+.page { padding: 0 0 32px; }
+
+.dateBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px 8px;
+}
+.dateText {
+  font-size: 14px;
+  color: var(--text2);
+  text-transform: capitalize;
+  font-weight: 500;
+}
+.dateEmoji { font-size: 20px; }
+
+.statsRow {
+  display: flex;
+  gap: 10px;
+  padding: 8px 16px 16px;
+}
+.statCard {
+  flex: 1;
+  background: var(--bg2);
+  border-radius: var(--r2);
+  padding: 14px 8px;
+  text-align: center;
+  border: 0.5px solid var(--border);
+}
+.statIcon  { font-size: 20px; margin-bottom: 4px; }
+.statNum   { font-size: 22px; font-weight: 700; color: var(--accent3); }
+.statLabel { font-size: 10px; color: var(--text3); margin-top: 3px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+.section { padding: 0 16px 20px; }
+.sectionHeader { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.sectionTitle { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.8px; }
+.addBtn { background: var(--bg2); border: 0.5px solid var(--border2); border-radius: 100px; padding: 5px 12px; font-size: 12px; color: var(--text2); cursor: pointer; font-family: var(--font); transition: all 0.15s; }
+.addBtn:hover { background: var(--bg3); color: var(--text); }
+
+/* Calendar */
+.calendar {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 4px;
+  background: var(--bg2);
+  border-radius: var(--r2);
+  padding: 14px;
+  border: 0.5px solid var(--border);
+  margin-bottom: 8px;
+}
+.calDay {
+  aspect-ratio: 1;
+  border-radius: 4px;
+  transition: transform 0.15s;
+}
+.calDay:hover { transform: scale(1.2); }
+.calLegend {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  font-size: 11px;
+  color: var(--text3);
+}
+.calLegend span { display: flex; align-items: center; gap: 4px; }
+.legDot { width: 8px; height: 8px; border-radius: 2px; display: inline-block; }
+
+/* Habits */
+.habitList { display: flex; flex-direction: column; gap: 8px; }
+.habitRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  border-radius: var(--r2);
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 0.5px solid var(--border);
+}
+.habitDone   { background: rgba(78,142,162,0.15); border-color: rgba(78,142,162,0.3); }
+.habitMissed { background: rgba(192,80,74,0.08);  border-color: rgba(192,80,74,0.2); }
+.habitIcon  { font-size: 22px; }
+.habitName  { flex: 1; font-size: 15px; font-weight: 500; color: var(--text); }
+.habitCheck { font-size: 18px; }
+
+/* Empty */
+.emptyCard {
+  background: var(--bg2);
+  border-radius: var(--r2);
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  border: 1px dashed var(--border2);
+  transition: border-color 0.15s;
+}
+.emptyCard:hover { border-color: var(--accent); }
+.emptyIcon { font-size: 32px; opacity: 0.4; }
+.emptyText { font-size: 13px; color: var(--text3); text-align: center; }
+
+/* Outfit */
+.outfitCard {
+  background: var(--bg2);
+  border-radius: var(--r2);
+  padding: 16px;
+  border: 0.5px solid var(--border);
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+.outfitCard:hover { border-color: var(--accent); }
+.outfitName { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 12px; }
+.outfitPieces { display: flex; gap: 8px; margin-bottom: 10px; }
+.outfitPiece {
+  width: 52px; height: 64px;
+  border-radius: 10px;
+  background: var(--bg3);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px;
+  border: 0.5px solid var(--border);
+  overflow: hidden;
+}
+.outfitPieceImg { width: 100%; height: 100%; object-fit: cover; }
+.outfitCta { font-size: 11px; color: var(--text3); text-align: center; }
+
+/* Top cloth */
+.topClothCard {
+  background: var(--bg2);
+  border-radius: var(--r2);
+  padding: 16px;
+  border: 0.5px solid var(--border);
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+.topClothImg {
+  width: 72px; height: 90px;
+  border-radius: var(--r);
+  background: var(--bg3);
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; flex-shrink: 0;
+}
+.topClothPhoto { width: 100%; height: 100%; object-fit: cover; }
+.topClothInfo  { flex: 1; }
+.topClothName  { font-size: 16px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+.topClothMeta  { font-size: 12px; color: var(--text3); margin-bottom: 8px; }
+.topClothUses  { font-size: 13px; color: var(--accent); font-weight: 500; }
+
+/* Footer */
+.footer { text-align: center; padding: 16px; font-size: 11px; color: var(--text3); letter-spacing: 0.5px; }
+.footer span { color: var(--accent); font-weight: 600; }
