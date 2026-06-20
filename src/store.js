@@ -162,23 +162,27 @@ export const useStore = create(
       },
 
       // Marcar hábito como missed o completado (toggle)
-      toggleHabit: (habitId, date) => {
-        const { habitRecords } = get()
-        const d = date || todayStr()
-        const dayRecords = { ...(habitRecords[d] || {}) }
-        const current = dayRecords[habitId]
+   
+toggleHabit: (habitId, date) => {
+  const { habitRecords } = get()
+  const d = date || todayStr()
+  const dayRecords = { ...(habitRecords[d] || {}) }
+  const current = dayRecords[habitId]
 
-        if (current) {
-          dayRecords[habitId] = {
-            ...current,
-            status: current.status === 'completed' ? 'missed' : 'completed',
-            updatedAt: new Date().toISOString(),
-          }
-        }
+  // Si no existe el registro para ese día, lo creamos como "completed" antes de togglear
+  const currentStatus = current ? current.status : 'completed'
 
-        set((s) => ({ habitRecords: { ...s.habitRecords, [d]: dayRecords } }))
-      },
+  dayRecords[habitId] = {
+    id: current?.id || `${Date.now()}_${Math.random().toString(36).slice(2,7)}`,
+    habitId,
+    date: d,
+    status: currentStatus === 'completed' ? 'missed' : 'completed',
+    createdAutomatically: !current,
+    updatedAt: new Date().toISOString(),
+  }
 
+  set((s) => ({ habitRecords: { ...s.habitRecords, [d]: dayRecords } }))
+},
       // Obtener registros de hoy
       getTodayRecords: () => {
         const { habitRecords } = get()
