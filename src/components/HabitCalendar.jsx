@@ -1,15 +1,18 @@
-import { useState, useEffect } from 'react'
+
+ import { useState, useEffect } from 'react'
 import { useStore } from '../store'
 import { format, startOfMonth, endOfMonth, eachDayOfInterval, getDay } from 'date-fns'
 import { es } from 'date-fns/locale'
+import toast from 'react-hot-toast'
 import styles from './HabitCalendar.module.css'
 
 const DAYS = ['Lu','Ma','Mi','Ju','Vi','Sa','Do']
 
 export default function HabitCalendar() {
-  const habits       = useStore((s) => s.habits)
-  const habitRecords = useStore((s) => s.habitRecords)
+  const habits           = useStore((s) => s.habits)
+  const habitRecords     = useStore((s) => s.habitRecords)
   const getCurrentStreak = useStore((s) => s.getCurrentStreak)
+  const toggleHabit      = useStore((s) => s.toggleHabit)
 
   const [mounted, setMounted] = useState(false)
   const [currentDate, setCurrentDate] = useState(null)
@@ -28,19 +31,9 @@ export default function HabitCalendar() {
   const streak       = getCurrentStreak()
   const todayStr     = format(new Date(), 'yyyy-MM-dd')
 
-  const prevMonth = () => {
-    const d = new Date(currentDate)
-    d.setMonth(d.getMonth() - 1)
-    setCurrentDate(d)
-    setSelectedDay(null)
-  }
-  const nextMonth = () => {
-    const d = new Date(currentDate)
-    d.setMonth(d.getMonth() + 1)
-    setCurrentDate(d)
-    setSelectedDay(null)
-  }
-  const goToday = () => { setCurrentDate(new Date()); setSelectedDay(null) }
+  const prevMonth = () => { const d = new Date(currentDate); d.setMonth(d.getMonth() - 1); setCurrentDate(d); setSelectedDay(null) }
+  const nextMonth = () => { const d = new Date(currentDate); d.setMonth(d.getMonth() + 1); setCurrentDate(d); setSelectedDay(null) }
+  const goToday   = () => { setCurrentDate(new Date()); setSelectedDay(null) }
 
   const monthStart = startOfMonth(currentDate)
   const monthEnd   = endOfMonth(currentDate)
@@ -85,10 +78,14 @@ export default function HabitCalendar() {
   }
   const bestStreak = getBestStreak()
 
-  const getDayDetail = (date) => {
-    const d = format(date, 'yyyy-MM-dd')
-    const records = habitRecords[d] || {}
+  const getDayDetail = (dateStr) => {
+    const records = habitRecords[dateStr] || {}
     return activeHabits.map((h) => ({ ...h, status: records[h.id]?.status || 'completed' }))
+  }
+
+  const handleToggleInDay = (habitId, habitName, currentStatus) => {
+    toggleHabit(habitId, selectedDay)
+    toast(currentStatus === 'completed' ? `❌ ${habitName} marcado como no realizado` : `✅ ${habitName} marcado como completado`)
   }
 
   const statusColors = {
@@ -152,12 +149,17 @@ export default function HabitCalendar() {
               {statusLabels[getDayStatus(new Date(selectedDay + 'T12:00:00'))]}
             </div>
           </div>
+          <div className={styles.detailHint}>Tocá un hábito para corregir su estado ese día</div>
           <div className={styles.detailList}>
-            {getDayDetail(new Date(selectedDay + 'T12:00:00')).map((h) => (
-              <div key={h.id} className={styles.detailRow}>
+            {getDayDetail(selectedDay).map((h) => (
+              <div
+                key={h.id}
+                className={`${styles.detailRow} ${styles.detailRowClickable}`}
+                onClick={() => handleToggleInDay(h.id, h.name, h.status)}
+              >
                 <span className={styles.detailIcon}>{h.icon}</span>
                 <span className={styles.detailName}>{h.name}</span>
-                <span>{h.status === 'completed' ? '✅' : '❌'}</span>
+                <span className={styles.detailToggle}>{h.status === 'completed' ? '✅' : '❌'}</span>
               </div>
             ))}
             {activeHabits.length === 0 && <div className={styles.detailEmpty}>Sin hábitos registrados</div>}
