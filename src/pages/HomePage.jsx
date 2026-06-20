@@ -4,40 +4,27 @@ import { format } from 'date-fns'
 import { es } from 'date-fns/locale'
 import AddHabitModal from '../components/AddHabitModal'
 import AddClothingModal from '../components/AddClothingModal'
+import HabitCalendar from '../components/HabitCalendar'
 import toast from 'react-hot-toast'
 import styles from './HomePage.module.css'
 
 export default function HomePage() {
   const habits             = useStore((s) => s.habits)
   const clothes            = useStore((s) => s.clothes)
-  const outfits            = useStore((s) => s.outfits)
+  const outfits             = useStore((s) => s.outfits)
   const getTodayRecords    = useStore((s) => s.getTodayRecords)
   const toggleHabit        = useStore((s) => s.toggleHabit)
-  const getCurrentStreak   = useStore((s) => s.getCurrentStreak)
-  const getTotalCompletedDays = useStore((s) => s.getTotalCompletedDays)
-  const getCalendarData    = useStore((s) => s.getCalendarData)
   const wearOutfit         = useStore((s) => s.wearOutfit)
 
-  const [showHabit, setShowHabit]   = useState(false)
-  const [showCloth, setShowCloth]   = useState(false)
+  const [showHabit, setShowHabit] = useState(false)
+  const [showCloth, setShowCloth] = useState(false)
 
   const todayRecords  = getTodayRecords()
-  const streak        = getCurrentStreak()
-  const totalDays     = getTotalCompletedDays()
-  const calendarData  = getCalendarData()
   const today         = format(new Date(), "EEEE d 'de' MMMM", { locale: es })
 
-  const activeHabits  = habits.filter((h) => h.active)
-  const completedToday = activeHabits.filter((h) => todayRecords[h.id]?.status === 'completed').length
-  const topCloth      = [...clothes].sort((a, b) => b.uses - a.uses)[0]
-  const lastOutfit    = outfits[0]
-
-  const calendarColors = {
-    perfect: '#4E8EA2',
-    partial: '#7BBDE8',
-    missed:  '#c0504a',
-    empty:   'rgba(189,216,233,0.08)',
-  }
+  const activeHabits   = habits.filter((h) => h.active)
+  const topCloth       = [...clothes].sort((a, b) => b.uses - a.uses)[0]
+  const lastOutfit      = outfits[0]
 
   return (
     <div className={styles.page}>
@@ -45,45 +32,6 @@ export default function HomePage() {
       <div className={styles.dateBar}>
         <div className={styles.dateText}>{today}</div>
         <div className={styles.dateEmoji}>🌅</div>
-      </div>
-
-      {/* ── Stats rápidas ── */}
-      <div className={styles.statsRow}>
-        <div className={styles.statCard}>
-          <div className={styles.statIcon}>🔥</div>
-          <div className={styles.statNum}>{streak}</div>
-          <div className={styles.statLabel}>Racha</div>
-        </div>
-        <div className={styles.statCard}>
-          <div className={styles.statIcon}>📅</div>
-          <div className={styles.statNum}>{totalDays}</div>
-          <div className={styles.statLabel}>Días perfectos</div>
-        </div>
-        <div className={styles.statCard}>
-          <div className={styles.statIcon}>✅</div>
-          <div className={styles.statNum}>{completedToday}/{activeHabits.length}</div>
-          <div className={styles.statLabel}>Hoy</div>
-        </div>
-      </div>
-
-      {/* ── Calendario ── */}
-      <div className={styles.section}>
-        <div className={styles.sectionTitle}>Consistencia</div>
-        <div className={styles.calendar}>
-          {calendarData.map((day, i) => (
-            <div
-              key={i}
-              className={styles.calDay}
-              style={{ background: calendarColors[day.status] }}
-              title={`${day.date}: ${day.status}`}
-            />
-          ))}
-        </div>
-        <div className={styles.calLegend}>
-          <span><span className={styles.legDot} style={{background:'#4E8EA2'}}/>Perfecto</span>
-          <span><span className={styles.legDot} style={{background:'#7BBDE8'}}/>Parcial</span>
-          <span><span className={styles.legDot} style={{background:'#c0504a'}}/>Fallado</span>
-        </div>
       </div>
 
       {/* ── Hábitos de hoy ── */}
@@ -100,8 +48,8 @@ export default function HomePage() {
         ) : (
           <div className={styles.habitList}>
             {activeHabits.map((h) => {
-              const record  = todayRecords[h.id]
-              const done    = record?.status === 'completed'
+              const record = todayRecords[h.id]
+              const done   = record?.status === 'completed'
               return (
                 <div
                   key={h.id}
@@ -117,6 +65,9 @@ export default function HomePage() {
           </div>
         )}
       </div>
+
+      {/* ── Calendario de consistencia ── */}
+      <HabitCalendar />
 
       {/* ── Outfit del día ── */}
       <div className={styles.section}>
